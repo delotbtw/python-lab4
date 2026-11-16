@@ -1,0 +1,19 @@
+from algopack.enums import Complexity
+
+DEFAULT_SEED = 42
+MIN_REPEATS = 5
+DEFAULT_REPEATS = 5
+DEFAULT_SIZES = (100, 1_000, 10_000)
+
+MAX_RECURSIVE_N = 500
+
+VALUE_LIMIT = 1_000_000
+NEARLY_SORTED_SWAP_RATIO = 0.05
+DUPLICATE_DISTINCT_VALUES = 10
+
+SECONDS_TO_MS = 1000
+
+EXPECTED_COMPLEXITY = {
+    "insertion_sort": Complexity.QUADRATIC,
+    "merge_sort": Complexity.N_LOG_N,
+}
