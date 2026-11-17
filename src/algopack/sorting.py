@@ -32,3 +32,39 @@ def insertion_sort[T](items: Sequence[T], key: KeyFunc | None = None) -> list[T]
         data[j + 1] = cur_item
         keys[j + 1] = cur_key
     return data
+
+
+type _Pair = tuple[Any, Any]
+
+
+def _merge(left: list[_Pair], right: list[_Pair]) -> list[_Pair]:
+    """Merge two sorted lists, take left on equal keys (stable)"""
+    result: list[_Pair] = []
+    i = j = 0
+    while i < len(left) and j < len(right):
+        if right[j][0] < left[i][0]:
+            result.append(right[j])
+            j += 1
+        else:
+            result.append(left[i])
+            i += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+
+
+def _sort_pairs(pairs: list[_Pair]) -> list[_Pair]:
+    if len(pairs) <= 1:
+        return pairs
+    mid = len(pairs) // 2
+    return _merge(
+        left=_sort_pairs(pairs=pairs[:mid]), right=_sort_pairs(pairs=pairs[mid:])
+    )
+
+
+def merge_sort[T](items: Sequence[T], key: KeyFunc | None = None) -> list[T]:
+    """New sorted list, stable. O(n log n), TypeError on bad input"""
+    data = copy_input(items=items)
+    keys = compute_keys(data=data, key=key)
+    pairs = list(zip(keys, data, strict=True))
+    return [item for _, item in _sort_pairs(pairs=pairs)]

@@ -2,10 +2,10 @@ import itertools
 
 import pytest
 
-from algopack.sorting import insertion_sort
+from algopack.sorting import insertion_sort, merge_sort
 from tests.helpers import random_list
 
-SORTS = [insertion_sort]
+SORTS = [insertion_sort, merge_sort]
 
 
 @pytest.mark.parametrize("sort", SORTS)
@@ -119,3 +119,8 @@ def test_sort_is_stable(sort):
     for (k1, i1), (k2, i2) in itertools.pairwise(result):
         assert k1 < k2 or (k1 == k2 and i1 < i2)
 
+
+def test_merge_sort_handles_large_input_without_recursion_error():
+    data = random_list(seed=3, size=5000, low=-1000, high=1000)
+
+    assert merge_sort(items=data) == sorted(data)
